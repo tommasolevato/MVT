@@ -14,10 +14,9 @@ public class MarkingState implements State {
 	public MarkingState(Marking marking) {
 		super();
 		this.marking = marking;
-		if(ids.containsKey(marking)) {
+		if (ids.containsKey(marking)) {
 			this.id = ids.get(marking);
-		}
-		else {
+		} else {
 			ids.put(marking, incrementalId);
 			this.id = incrementalId;
 			incrementalId++;
@@ -37,21 +36,21 @@ public class MarkingState implements State {
 	public static int getStateId(Marking toCompute) {
 		return ids.get(toCompute);
 	}
-	
+
 	@Override
 	public boolean equals(Object o) {
-		if(!(o instanceof MarkingState)) {
+		if (!(o instanceof MarkingState)) {
 			return false;
 		}
-		MarkingState toCompare = (MarkingState)o;
-		return marking.equals(toCompare.marking) && id==toCompare.id;
+		MarkingState toCompare = (MarkingState) o;
+		return marking.equals(toCompare.marking) && id == toCompare.id;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		int result = 13;
-		result = result*23 + id;
-		result = result*23 + marking.hashCode();
+		result = result * 23 + id;
+		result = result * 23 + marking.hashCode();
 		return result;
 	}
 

@@ -10,6 +10,11 @@ public class Transition {
 	public int getId() {
 		return id;
 	}
+	
+	@Override
+	public String toString() {
+		return "Transition: t" + id;
+	}
 
 	@Override
 	public boolean equals(Object o) {
@@ -21,8 +26,8 @@ public class Transition {
 
 	@Override
 	public int hashCode() {
-		int prime = 31;
-		return prime * id;
+		int result = 43;
+		return result * 11 + id;
 	}
 
 }

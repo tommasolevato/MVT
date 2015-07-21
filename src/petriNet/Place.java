@@ -21,8 +21,8 @@ public class Place {
 
 	@Override
 	public int hashCode() {
-		int prime = 57;
-		return prime * id;
+		int result = 57;
+		return result * 29 + id;
 	}
 
 }

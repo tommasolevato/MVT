@@ -43,9 +43,10 @@ public class StateClass implements State {
 
 	@Override
 	public int hashCode() {
-		final int prime = 33;
-		int result = 1;
-		result = prime * result + Integer.valueOf(id).hashCode() + marking.hashCode() + domain.hashCode();
+		int result = 19;
+		result = result * 31 + id;
+		result = result * 31 + marking.hashCode();
+		result = result * 31 + domain.hashCode();
 		return result;
 	}
 	

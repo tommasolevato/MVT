@@ -41,10 +41,13 @@ public class DomainInequality {
 
 	@Override
 	public int hashCode() {
-		int prime = 11;
-		int result = (int) (minFiringTime * maxFiringTime * subtracting.hashCode() * (toSubtract == null ? 1 : toSubtract.hashCode())
-				* (newlyEnabled ? 1 : 2));
-		return prime * result;
+		int result = 41;
+		result = result * 11 + Float.floatToIntBits(minFiringTime);
+		result = result * 11 + Float.floatToIntBits(maxFiringTime);
+		result = result * 11 + subtracting.hashCode();
+		result = result * 11 + (toSubtract == null ? 0 : toSubtract.hashCode());
+		result = result * 11 + (newlyEnabled == true ? 1 : 0);
+		return result;
 	}
 	
 }
