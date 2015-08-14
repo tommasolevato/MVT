@@ -24,10 +24,9 @@ public class MarkingGraphParser extends GraphParser {
 
 		Document doc = dBuilder.parse(xml);
 		doc.getDocumentElement().normalize();
-		NodeList states = doc.getElementsByTagName("node");
-
-		for (int i = 0; i < states.getLength(); i++) {
-			MarkingState s = buildMarkingState(states.item(i));
+		NodeList nodes = doc.getElementsByTagName("node");
+		for (int i = 0; i < nodes.getLength(); i++) {
+			MarkingNode s = buildMarkingNode(nodes.item(i));
 			toParse.addNode(s);
 		}
 
@@ -39,21 +38,21 @@ public class MarkingGraphParser extends GraphParser {
 		return toParse;
 	}
 
-	private MarkingState buildMarkingState(Node stateToBuild) {
+	private MarkingNode buildMarkingNode(Node stateToBuild) {
 		String marking = getNodeLabel(stateToBuild);
-		return new MarkingState(getNodeMarking(marking));
+		return new MarkingNode(getMarkingNode(marking));
 	}
 
 	private Edge buildEdge(Node edgeToBuild) {
-		int id = getEdgeId(edgeToBuild);
+		String idString = getEdgeId(edgeToBuild);
 		String source = getNodeAttribute(edgeToBuild, "source");
 		String dest = getNodeAttribute(edgeToBuild, "target");
 		String sourceSubString = source.split("\"")[1];
 		String destSubString = dest.split("\"")[1];
-		Marking sourceMarking = getNodeMarking(sourceSubString);
-		Marking destMarking = getNodeMarking(destSubString);
-		return new Edge(new Transition(id), toParse.getStateById(MarkingState.getStateId(sourceMarking)),
-				toParse.getStateById(MarkingState.getStateId(destMarking)));
+		Marking sourceMarking = getMarkingNode(sourceSubString);
+		Marking destMarking = getMarkingNode(destSubString);
+		return new Edge(new Transition(idString), new MarkingNode(sourceMarking),
+				new MarkingNode(destMarking));
 	}
 
 }

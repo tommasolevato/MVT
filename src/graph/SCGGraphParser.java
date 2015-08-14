@@ -4,7 +4,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -18,6 +21,12 @@ import petriNet.Marking;
 import petriNet.Transition;
 
 public class SCGGraphParser extends GraphParser {
+	private Map<Integer, StateClassNode> ids;
+	
+	public SCGGraphParser() {
+		ids = new HashMap<>();
+	}
+	
 	public Graph parse(File xml) throws ParserConfigurationException, SAXException, IOException {
 		toParse = new Graph();
 		DocumentBuilder dBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
@@ -27,7 +36,8 @@ public class SCGGraphParser extends GraphParser {
 		NodeList states = doc.getElementsByTagName("node");
 
 		for (int i = 0; i < states.getLength(); i++) {
-			StateClass s = buildStateClass(states.item(i));
+			StateClassNode s = buildStateClass(states.item(i));
+			ids.put(s.getId(), s);
 			toParse.addNode(s);
 		}
 
@@ -39,15 +49,15 @@ public class SCGGraphParser extends GraphParser {
 		return toParse;
 	}
 
-	private StateClass buildStateClass(Node stateClassToBuild) {
+	private StateClassNode buildStateClass(Node stateClassToBuild) {
 		int id = getNodeId(stateClassToBuild);
 		Marking m = getNodeMarking(stateClassToBuild);
 		Domain d = getNodeDomain(stateClassToBuild);
-		return new StateClass(id, m, d);
+		return new StateClassNode(id, m, d);
 	}
 
 	private Edge buildEdge(Node edgeToBuild) {
-		int id = getEdgeId(edgeToBuild);
+		String name = getEdgeId(edgeToBuild);
 		String source = getNodeAttribute(edgeToBuild, "source");
 		String dest = getNodeAttribute(edgeToBuild, "target");
 		String sourceSubString = source.split("\"")[1];
@@ -55,7 +65,7 @@ public class SCGGraphParser extends GraphParser {
 		int sourceId = Integer.parseInt(sourceSubString);
 		int destId = Integer.parseInt(destSubString);
 
-		return new Edge(new Transition(id), toParse.getStateById(sourceId), toParse.getStateById(destId));
+		return new Edge(new Transition(name), ids.get(sourceId), ids.get(destId));
 	}
 
 	private int getNodeId(Node toParse) {
@@ -67,7 +77,7 @@ public class SCGGraphParser extends GraphParser {
 	private Marking getNodeMarking(Node toParse) {
 		String nodeLabel = getNodeLabel(toParse);
 		String lineToParse = nodeLabel.split("\n")[0];
-		return getNodeMarking(lineToParse);
+		return getMarkingNode(lineToParse);
 	}
 
 	private Domain getNodeDomain(Node toParse) {
@@ -95,11 +105,10 @@ public class SCGGraphParser extends GraphParser {
 			if (!rawMaxFiringTime.contains("INF")) {
 				maxFiringTime = Float.valueOf(rawMaxFiringTime.replace(" ", "").split("\\[")[0]);
 			}
-			Transition subtracting = new Transition(
-					Integer.parseInt(rawTransitions.split("-")[0].replace("t", "").trim()));
+			Transition subtracting = new Transition(rawTransitions.split("-")[0].trim());
 			Transition toSubtract = null;
 			if (rawTransitions.split("-").length > 1) {
-				toSubtract = new Transition(Integer.parseInt(rawTransitions.split("-")[1].replace("t", "").trim()));
+				toSubtract = new Transition(rawTransitions.split("-")[1].trim());
 			}
 			inequalities.add(new DomainInequality(minFiringTime, maxFiringTime, subtracting, toSubtract, newlyEnabled));
 		}

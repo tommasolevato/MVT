@@ -1,14 +1,14 @@
 package petriNet;
 
 public class Place {
-	private int id;
+	private String name;
 
-	public Place(int id) {
-		this.id = id;
+	public Place(String name) {
+		this.name = name;
 	}
 
-	public int getId() {
-		return this.id;
+	public String getName() {
+		return this.name;
 	}
 
 	@Override
@@ -16,13 +16,17 @@ public class Place {
 		if (!(o instanceof Place)) {
 			return false;
 		}
-		return id == ((Place) o).id;
+		return name.equals(((Place) o).name);
 	}
 
 	@Override
 	public int hashCode() {
 		int result = 57;
-		return result * 29 + id;
+		return result * name.hashCode();
 	}
-
+	
+	@Override
+	public String toString() {
+		return name;
+	}
 }

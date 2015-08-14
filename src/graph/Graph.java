@@ -1,11 +1,10 @@
 package graph;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
+
 import org.jgrapht.alg.BellmanFordShortestPath;
 import org.jgrapht.alg.DijkstraShortestPath;
 import org.jgrapht.event.EdgeTraversalEvent;
@@ -14,17 +13,19 @@ import org.jgrapht.graph.ClassBasedEdgeFactory;
 import org.jgrapht.graph.DefaultDirectedGraph;
 import org.jgrapht.traverse.BreadthFirstIterator;
 
+import petriNet.Transition;
+
 public class Graph {
-	private org.jgrapht.Graph<State, Edge> myGraph;
-	private Map<Integer, State> states;
+	private org.jgrapht.Graph<Node, Edge> myGraph;
+	private List<Node> nodes;
 
 	public Graph() {
 		myGraph = new DefaultDirectedGraph<>(new ClassBasedEdgeFactory<>(Edge.class));
-		states = new HashMap<>();
+		nodes = new ArrayList<Node>();
 	}
 
-	public void addNode(State toAdd) {
-		states.put(toAdd.getId(), toAdd);
+	public void addNode(Node toAdd) {
+		nodes.add(toAdd);
 		myGraph.addVertex(toAdd);
 	}
 
@@ -40,12 +41,8 @@ public class Graph {
 		myGraph.addEdge(toAdd.getSource(), toAdd.getDest(), toAdd);
 	}
 
-	public State getStateById(int id) {
-		return states.get(id);
-	}
-
-	public void addAllNodes(List<State> toAdd) {
-		for (State node : toAdd) {
+	public void addAllNodes(List<Node> toAdd) {
+		for (Node node : toAdd) {
 			addNode(node);
 		}
 	}
@@ -59,10 +56,10 @@ public class Graph {
 	@Override
 	public String toString() {
 		StringBuilder s = new StringBuilder();
-		BreadthFirstIterator<State, Edge> it = new BreadthFirstIterator<>(myGraph);
-		TraversalListenerAdapter<State, Edge> l = new TraversalListenerAdapter<State, Edge>() {
+		BreadthFirstIterator<Node, Edge> it = new BreadthFirstIterator<>(myGraph);
+		TraversalListenerAdapter<Node, Edge> l = new TraversalListenerAdapter<Node, Edge>() {
 			@Override
-			public void edgeTraversed(EdgeTraversalEvent<State, Edge> e) {
+			public void edgeTraversed(EdgeTraversalEvent<Node, Edge> e) {
 				System.out.println(e.getEdge().getTransition());
 			}
 		};
@@ -71,7 +68,6 @@ public class Graph {
 			s.append(it.next().print() + "\n");
 		}
 		return s.toString();
-
 	}
 
 	public List<Graph> getAllEdgeCoverage() {
@@ -85,7 +81,8 @@ public class Graph {
 					toAdd.add(e);
 					toReturn.add(buildGraph(toAdd));
 				} else {
-					List<Edge> path = BellmanFordShortestPath.findPathBetween(myGraph, getInitialState(), e.getSource());
+					List<Edge> path = BellmanFordShortestPath.findPathBetween(myGraph, getInitialState(),
+							e.getSource());
 					path.add(e);
 					left.remove(e);
 					left.removeAll(path);
@@ -94,38 +91,39 @@ public class Graph {
 			}
 		}
 		return toReturn;
-
 	}
 
 	public List<Graph> getAllNodeCoverage() {
-		State initial = getInitialState();
-		Set<State> toVisit = new HashSet<>(states.values());
+		Node initial = getInitialState();
+		Set<Node> toVisit = new HashSet<>(nodes);
 		toVisit.remove(initial);
-		Set<State> left = new HashSet<>(states.values());
+		Set<Node> left = new HashSet<>(nodes);
 		left.remove(initial);
 		List<Graph> toReturn = new ArrayList<>();
-		for (State visiting : toVisit) {
+		for (Node visiting : toVisit) {
 			if (left.contains(visiting)) {
-				DijkstraShortestPath<State, Edge> pathFinder = new DijkstraShortestPath<>(myGraph, initial, visiting);
+				DijkstraShortestPath<Node, Edge> pathFinder = new DijkstraShortestPath<>(myGraph, initial, visiting);
 				List<Edge> path = pathFinder.getPathEdgeList();
 				for (Edge e : path) {
 					left.remove(e.getDest());
 				}
 				toReturn.add(buildGraph(path));
-				System.out.println(left.size());
 			}
 		}
 		return toReturn;
 	}
-	
-	private Graph path(State start, State end) {
-		DijkstraShortestPath<State, Edge> pathFinder = new DijkstraShortestPath<>(myGraph, start, end);
-		List<Edge> pathEdges = pathFinder.getPathEdgeList();
-		return buildGraph(pathEdges);
+
+	public Node whatNodeIGetTo(Node from, Transition with) {
+		for (Edge e : myGraph.edgeSet()) {
+			if (e.getSource().equals(from) && e.getTransition().equals(with)) {
+				return e.getDest();
+			}
+		}
+		return null;
 	}
 
-	private State getInitialState() {
-		return states.get(0);
+	public Node getInitialState() {
+		return nodes.get(0);
 	}
 
 	private Graph buildGraph(List<Edge> edges) {
@@ -142,7 +140,7 @@ public class Graph {
 		return new ArrayList<>(myGraph.edgeSet());
 	}
 
-	public List<State> getAllNodes() {
+	public List<Node> getAllNodes() {
 		return new ArrayList<>(myGraph.vertexSet());
 	}
 

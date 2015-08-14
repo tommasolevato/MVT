@@ -3,20 +3,19 @@ package graph;
 import petriNet.Domain;
 import petriNet.Marking;
 
-public class StateClass implements State {
+public class StateClassNode implements Node {
 	private int id;
 	
 	private Marking marking;
 	private Domain domain;
 
-	public StateClass(int id, Marking marking, Domain domain) {
+	public StateClassNode(int id, Marking marking, Domain domain) {
 		super();
 		this.id = id;
 		this.marking = marking;
 		this.domain = domain;
 	}
 
-	@Override
 	public int getId() {
 		return this.id;
 	}
@@ -31,10 +30,10 @@ public class StateClass implements State {
 
 	@Override
 	public boolean equals(Object o) {
-		if (o instanceof StateClass == false) {
+		if (o instanceof StateClassNode == false) {
 			return false;
 		}
-		StateClass toCompare = (StateClass) o;
+		StateClassNode toCompare = (StateClassNode) o;
 		if (toCompare.getId() == id && toCompare.marking.equals(marking) && toCompare.domain.equals(domain)) {
 			return true;
 		}

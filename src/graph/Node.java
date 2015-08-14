@@ -1,9 +1,6 @@
 package graph;
 
-public interface State {
-	public int getId();
-
+public interface Node {
 	// TODO: cambiare nome
 	public String print();
-
 }

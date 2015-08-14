@@ -3,21 +3,21 @@ package graph;
 import petriNet.Transition;
 
 public class Edge {
-	private State source;
-	private State dest;
+	private Node source;
+	private Node dest;
 	private Transition transition;
 
-	public Edge(Transition transition, State source, State dest) {
+	public Edge(Transition transition, Node source, Node dest) {
 		this.transition = transition;
 		this.source = source;
 		this.dest = dest;
 	}
 
-	public State getSource() {
+	public Node getSource() {
 		return this.source;
 	}
 
-	public State getDest() {
+	public Node getDest() {
 		return this.dest;
 	}
 

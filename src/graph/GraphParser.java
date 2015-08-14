@@ -32,23 +32,23 @@ public abstract class GraphParser {
 		return nodeLabel.getTextContent();
 	}
 
-	protected int getEdgeId(Node toAnalyze) {
+	protected String getEdgeId(Node toAnalyze) {
 		Element casted = (Element) toAnalyze;
 		Element data = (Element) casted.getElementsByTagName("data").item(0);
 		Element shapeNode = (Element) data.getElementsByTagName("y:PolyLineEdge").item(0);
 		Element nodeLabel = (Element) shapeNode.getElementsByTagName("y:EdgeLabel").item(0);
-		return Integer.parseInt(nodeLabel.getTextContent().replace("t", ""));
+		return nodeLabel.getTextContent();
 	}
 
-	protected Marking getNodeMarking(String markingString) {
-		List<String> placesStrings = new ArrayList<>(Arrays.asList(markingString.split("p")));
-		placesStrings.remove(0);
+	protected Marking getMarkingNode(String markingString) {
+		List<String> placesStrings = new ArrayList<>(Arrays.asList(markingString.split(" ")));
 		List<Place> placesList = new ArrayList<>();
 		for (String placeString : placesStrings) {
-			Place toAdd = new Place(Integer.parseInt(placeString.trim()));
+			Place toAdd = new Place(placeString.trim());
 			placesList.add(toAdd);
 		}
-		return new Marking(placesList);
+		Marking toReturn = new Marking(placesList);
+		return toReturn;
 	}
 
 }

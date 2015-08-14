@@ -1,19 +1,20 @@
 package petriNet;
 
 public class Transition {
-	private int id;
+	//FIXME: non int ma String
+	private String name;
 
-	public Transition(int id) {
-		this.id = id;
+	public Transition(String name) {
+		this.name = name;
 	}
 
-	public int getId() {
-		return id;
+	public String getId() {
+		return name;
 	}
 	
 	@Override
 	public String toString() {
-		return "Transition: t" + id;
+		return "Transition: " + name;
 	}
 
 	@Override
@@ -21,13 +22,13 @@ public class Transition {
 		if (!(o instanceof Transition)) {
 			return false;
 		}
-		return id == ((Transition) o).id;
+		return name.equals(((Transition) o).name);
 	}
 
 	@Override
 	public int hashCode() {
 		int result = 43;
-		return result * 11 + id;
+		return result * 11 + name.hashCode();
 	}
 
 }
