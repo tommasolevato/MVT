@@ -24,6 +24,7 @@ public class CoverageAnalyzer {
 		for(ExecutionLog next : logs) {
 			List<Transition> transitions = next.getTransitions();
 			Node source = toAnalyze.getInitialState();
+			visited.add(source);
 			for(Transition t : transitions) {
 				source = toAnalyze.whatNodeIGetTo(source, t);
 				if(source == null) {

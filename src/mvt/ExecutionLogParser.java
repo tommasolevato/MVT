@@ -22,9 +22,20 @@ public class ExecutionLogParser {
 			}
 			//XXX: non sono sicuro sia necessario
 			br.close();
+		//FIXME: non catchare
 		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
 		} catch (IOException e2) {
+			e2.printStackTrace();
 		}
 		return new ExecutionLog(transitions);
+	}
+	
+	List<ExecutionLog> parseFromDirectory(File directory) {
+		List<ExecutionLog> toReturn = new ArrayList<>();
+		for(File toParse : directory.listFiles()) {
+			toReturn.add(parse(toParse));
+		}
+		return toReturn;
 	}
 }
