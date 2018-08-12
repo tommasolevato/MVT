@@ -30,10 +30,4 @@ public class MarkingNode implements Node {
 		result = result * 23 + marking.hashCode();
 		return result;
 	}
-	
-	//FIXME: eliminare
-	public Marking getMarking() {
-		return marking;
-	}
-
 }

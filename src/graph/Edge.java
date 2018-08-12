@@ -24,23 +24,23 @@ public class Edge {
 	public Transition getTransition() {
 		return transition;
 	}
-	
+
 	@Override
 	public boolean equals(Object o) {
-		if(!(o instanceof Edge)) {
+		if (!(o instanceof Edge)) {
 			return false;
 		}
-		Edge toCompare = (Edge)o;
-		return source.equals(toCompare.source) && dest.equals(toCompare.dest) && transition.equals(toCompare.transition);
+		Edge toCompare = (Edge) o;
+		return source.equals(toCompare.source) && dest.equals(toCompare.dest)
+				&& transition.equals(toCompare.transition);
 	}
-	
+
 	@Override
 	public int hashCode() {
 		int result = 17;
-		result = 31* result + source.hashCode();
-		result = 31* result + dest.hashCode();
-		result = 31* result + transition.hashCode();
+		result = 31 * result + source.hashCode();
+		result = 31 * result + dest.hashCode();
+		result = 31 * result + transition.hashCode();
 		return result;
 	}
-
 }

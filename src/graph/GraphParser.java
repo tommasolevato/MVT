@@ -5,13 +5,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import javax.xml.parsers.ParserConfigurationException;
-
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
-
 import petriNet.Marking;
 import petriNet.Place;
 
@@ -50,5 +47,4 @@ public abstract class GraphParser {
 		Marking toReturn = new Marking(placesList);
 		return toReturn;
 	}
-
 }

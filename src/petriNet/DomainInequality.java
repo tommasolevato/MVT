@@ -49,5 +49,4 @@ public class DomainInequality {
 		result = result * 11 + (newlyEnabled == true ? 1 : 0);
 		return result;
 	}
-	
 }

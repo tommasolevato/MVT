@@ -3,7 +3,6 @@ package petriNet;
 import java.util.List;
 
 public class Domain {
-
 	private List<DomainInequality> inequalities;
 
 	public Domain(List<DomainInequality> inequalities) {
@@ -31,5 +30,4 @@ public class Domain {
 	public int hashCode() {
 		return inequalities.hashCode();
 	}
-
 }

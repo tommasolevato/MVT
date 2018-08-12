@@ -8,15 +8,11 @@ public class Marking {
 
 	public Marking(List<Place> places) {
 		this.places = places;
-		//XXX: la responsabilità dovrebbe essere di Place
 		this.places.sort(new Comparator<Place>() {
-
 			@Override
 			public int compare(Place o1, Place o2) {
-				//FIXME: fragile
 				return o1.getName().compareTo(o2.getName());
 			}
-			
 		});
 	}
 
@@ -41,5 +37,4 @@ public class Marking {
 	public int hashCode() {
 		return places.hashCode();
 	}
-
 }

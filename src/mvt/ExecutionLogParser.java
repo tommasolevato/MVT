@@ -7,7 +7,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import petriNet.ExecutionLog;
 import petriNet.Transition;
 
@@ -20,9 +19,7 @@ public class ExecutionLogParser {
 				transitions.add(new Transition(line));
 				br.readLine();
 			}
-			//XXX: non sono sicuro sia necessario
 			br.close();
-		//FIXME: non catchare
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();
 		} catch (IOException e2) {
@@ -30,10 +27,10 @@ public class ExecutionLogParser {
 		}
 		return new ExecutionLog(transitions);
 	}
-	
+
 	List<ExecutionLog> parseFromDirectory(File directory) {
 		List<ExecutionLog> toReturn = new ArrayList<>();
-		for(File toParse : directory.listFiles()) {
+		for (File toParse : directory.listFiles()) {
 			toReturn.add(parse(toParse));
 		}
 		return toReturn;

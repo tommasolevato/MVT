@@ -1,7 +1,6 @@
 package petriNet;
 
 public class Transition {
-	//FIXME: non int ma String
 	private String name;
 
 	public Transition(String name) {
@@ -11,7 +10,7 @@ public class Transition {
 	public String getId() {
 		return name;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Transition: " + name;
@@ -30,5 +29,4 @@ public class Transition {
 		int result = 43;
 		return result * 11 + name.hashCode();
 	}
-
 }

@@ -7,7 +7,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -22,11 +21,11 @@ import petriNet.Transition;
 
 public class SCGGraphParser extends GraphParser {
 	private Map<Integer, StateClassNode> ids;
-	
+
 	public SCGGraphParser() {
 		ids = new HashMap<>();
 	}
-	
+
 	public Graph parse(File xml) throws ParserConfigurationException, SAXException, IOException {
 		toParse = new Graph();
 		DocumentBuilder dBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
@@ -115,5 +114,4 @@ public class SCGGraphParser extends GraphParser {
 
 		return new Domain(inequalities);
 	}
-	
 }

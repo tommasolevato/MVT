@@ -5,7 +5,6 @@ import petriNet.Marking;
 
 public class StateClassNode implements Node {
 	private int id;
-	
 	private Marking marking;
 	private Domain domain;
 
@@ -48,5 +47,4 @@ public class StateClassNode implements Node {
 		result = result * 31 + domain.hashCode();
 		return result;
 	}
-	
 }

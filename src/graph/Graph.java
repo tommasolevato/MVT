@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import org.jgrapht.alg.BellmanFordShortestPath;
 import org.jgrapht.alg.DijkstraShortestPath;
 import org.jgrapht.event.EdgeTraversalEvent;
@@ -143,5 +142,4 @@ public class Graph {
 	public List<Node> getAllNodes() {
 		return new ArrayList<>(myGraph.vertexSet());
 	}
-
 }
